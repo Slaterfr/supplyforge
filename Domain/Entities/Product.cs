@@ -1,6 +1,6 @@
 ﻿namespace SupplyForge.Domain.Entities
 {
-    public sealed class ProductEntity
+    public sealed class Product
     {
         public Guid Id { get; private set; }
         public string Name { get; private set; }
@@ -12,7 +12,7 @@
         {
 
         }
-        public ProductEntity(Guid id, string name, string description, decimal price, decimal weight)
+        public Product(string name, string description, decimal price, decimal weight)
         {
             if(string.IsNullOrWhiteSpace(name))
             {

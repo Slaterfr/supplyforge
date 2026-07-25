@@ -15,9 +15,10 @@ namespace SupplyForge.Infrastructure.Configurations
 
             builder.Property(s => s.DeliveryDate)
                 .IsRequired();
-
-
-
+            builder.HasOne(s => s.Vehicle)
+                .WithMany(v => v.Shipments)
+                .HasForeignKey(s => s.VehicleId)
+                .OnDelete(DeleteBehavior.Cascade);
 
         }
     }

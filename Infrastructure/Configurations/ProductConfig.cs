@@ -6,9 +6,9 @@ namespace SupplyForge.Infrastructure.Configurations
 
 {
     public sealed class ProductConfig
-    : IEntityTypeConfiguration<ProductEntity>
+    : IEntityTypeConfiguration<Product>
     {
-        public void Configure(EntityTypeBuilder<ProductEntity> builder)
+        public void Configure(EntityTypeBuilder<Product> builder)
         {
             builder.ToTable("Products");
 

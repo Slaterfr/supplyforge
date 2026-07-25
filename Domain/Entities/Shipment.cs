@@ -16,11 +16,15 @@
         public Guid ProductId { get; set; }
         public int Quantity { get; set; }
         public DateTime DateCreated { get; set; }
+        public ICollection<ShipmentItem> ShipmentItems { get; private set; } = new List<ShipmentItem>();
+        public Vehicle Vehicle { get; private set; } // Navigation property
+
 
         private Shipment()
         {
             // Required by EF Core
         }
+
 
         public Shipment(Guid vehicleId, DateTime shipmentDate, DateTime deliveryDate, Guid productId, int quantity)
         {
