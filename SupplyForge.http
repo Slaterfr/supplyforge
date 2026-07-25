@@ -1,0 +1,6 @@
+@SupplyForge_HostAddress = http://localhost:5022
+
+GET {{SupplyForge_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
