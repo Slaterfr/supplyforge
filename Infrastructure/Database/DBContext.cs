@@ -24,6 +24,7 @@ namespace SupplyForge.Database
         public DbSet<Product> Products { get; set; }
         public DbSet<Vehicle> Vehicles { get; set; }
         public DbSet<Shipment> Shipments { get; set; }
+        public DbSet<ShipmentItem> ShipmentItems { get; set; }
 
     }
 }

@@ -1,5 +1,7 @@
 
 using Microsoft.EntityFrameworkCore;
+using SupplyForge.App.Interfaces;
+using SupplyForge.App.Services;
 using SupplyForge.Database;
 
 namespace SupplyForge
@@ -20,6 +22,11 @@ namespace SupplyForge
 
             builder.Services.AddDbContext<ApplicationDbContext>(options =>
             options.UseSqlServer(connectionString));
+
+        
+
+            builder.Services.AddScoped<IProductService, ProductService>();
+
 
             var app = builder.Build();
 

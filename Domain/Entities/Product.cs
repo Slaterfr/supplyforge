@@ -28,7 +28,7 @@
                 throw new ArgumentOutOfRangeException(nameof(price), "Product price cannot be negative.");
             }
 
-            if(weight <= 0)
+            if(weight < 0)
             {
                 throw new ArgumentOutOfRangeException(nameof(weight), "Product weight cannot be zero or negative.");
             }

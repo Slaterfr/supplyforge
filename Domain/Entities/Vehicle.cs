@@ -11,7 +11,7 @@ namespace SupplyForge.Domain.Entities
         public string PlateNumber { get; private set; }
         public decimal MaxLoad { get; private set; }
         public VehicleStatus Status { get; private set; } = VehicleStatus.Available;
-        public ICollection<Shipment> Shipments { get; private set; } = new List<Shipment>();
+        public ICollection<Shipment> Shipments { get; private set; }
 
         private Vehicle()
         {
