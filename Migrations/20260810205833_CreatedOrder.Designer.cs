@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SupplyForge.Database;
 
@@ -11,9 +12,11 @@ using SupplyForge.Database;
 namespace SupplyForge.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260810205833_CreatedOrder")]
+    partial class CreatedOrder
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -30,8 +33,7 @@ namespace SupplyForge.Migrations
 
                     b.Property<string>("ContactInfo")
                         .IsRequired()
-                        .HasMaxLength(200)
-                        .HasColumnType("nvarchar(200)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("DateCreated")
                         .HasColumnType("datetime2");
@@ -41,72 +43,18 @@ namespace SupplyForge.Migrations
 
                     b.Property<string>("Location")
                         .IsRequired()
-                        .HasMaxLength(250)
-                        .HasColumnType("nvarchar(250)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasMaxLength(150)
-                        .HasColumnType("nvarchar(150)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<Guid>("UserId")
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("UserId");
-
-                    b.ToTable("Clients", (string)null);
-                });
-
-            modelBuilder.Entity("SupplyForge.Domain.Entities.Company", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("Address")
-                        .IsRequired()
-                        .HasMaxLength(250)
-                        .HasColumnType("nvarchar(250)");
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(150)
-                        .HasColumnType("nvarchar(150)");
-
-                    b.Property<DateTime>("UpdatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Companies", (string)null);
-                });
-
-            modelBuilder.Entity("SupplyForge.Domain.Entities.CompanyMember", b =>
-                {
-                    b.Property<Guid>("UserId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("CompanyId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("RoleId")
-                        .HasColumnType("int");
-
-                    b.HasKey("UserId", "CompanyId");
-
-                    b.HasIndex("CompanyId");
-
-                    b.HasIndex("RoleId");
-
-                    b.ToTable("CompanyMembers", (string)null);
+                    b.ToTable("Clients");
                 });
 
             modelBuilder.Entity("SupplyForge.Domain.Entities.Order", b =>
@@ -124,16 +72,14 @@ namespace SupplyForge.Migrations
                     b.Property<DateTime>("DateUpdated")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("Status")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
                     b.HasIndex("ClientId");
 
-                    b.ToTable("Orders", (string)null);
+                    b.ToTable("Orders");
                 });
 
             modelBuilder.Entity("SupplyForge.Domain.Entities.Product", b =>
@@ -163,32 +109,6 @@ namespace SupplyForge.Migrations
                     b.ToTable("Products", (string)null);
                 });
 
-            modelBuilder.Entity("SupplyForge.Domain.Entities.Role", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasMaxLength(250)
-                        .HasColumnType("nvarchar(250)");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("Name")
-                        .IsUnique();
-
-                    b.ToTable("Roles", (string)null);
-                });
-
             modelBuilder.Entity("SupplyForge.Domain.Entities.Shipment", b =>
                 {
                     b.Property<Guid>("Id")
@@ -213,19 +133,12 @@ namespace SupplyForge.Migrations
                     b.Property<DateTime>("ShipmentDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("Status")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
                     b.Property<Guid>("VehicleId")
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
 
                     b.HasIndex("OrderId");
-
-                    b.HasIndex("ProductId");
 
                     b.HasIndex("VehicleId");
 
@@ -245,53 +158,21 @@ namespace SupplyForge.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<decimal>("UnitPrice")
+                        .HasMaxLength(64)
                         .HasColumnType("decimal(18,2)");
 
                     b.Property<int>("UnitQuantity")
                         .HasColumnType("int");
 
                     b.Property<decimal>("UnitWeight")
+                        .HasMaxLength(64)
                         .HasColumnType("decimal(18,2)");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ProductId");
-
                     b.HasIndex("ShipmentId");
 
                     b.ToTable("ShipmentItems", (string)null);
-                });
-
-            modelBuilder.Entity("SupplyForge.Domain.Entities.User", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Email")
-                        .IsRequired()
-                        .HasMaxLength(255)
-                        .HasColumnType("nvarchar(255)");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
-
-                    b.Property<string>("PasswordHash")
-                        .IsRequired()
-                        .HasMaxLength(255)
-                        .HasColumnType("nvarchar(255)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("Email")
-                        .IsUnique();
-
-                    b.ToTable("Users", (string)null);
                 });
 
             modelBuilder.Entity("SupplyForge.Domain.Entities.Vehicle", b =>
@@ -300,10 +181,8 @@ namespace SupplyForge.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2");
-
                     b.Property<decimal>("MaxLoad")
+                        .HasMaxLength(100)
                         .HasColumnType("decimal(18,2)");
 
                     b.Property<string>("PlateNumber")
@@ -311,61 +190,18 @@ namespace SupplyForge.Migrations
                         .HasMaxLength(20)
                         .HasColumnType("nvarchar(20)");
 
-                    b.Property<string>("Status")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("PlateNumber")
-                        .IsUnique();
-
                     b.ToTable("Vehicles", (string)null);
-                });
-
-            modelBuilder.Entity("SupplyForge.Domain.Entities.Client", b =>
-                {
-                    b.HasOne("SupplyForge.Domain.Entities.User", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("User");
-                });
-
-            modelBuilder.Entity("SupplyForge.Domain.Entities.CompanyMember", b =>
-                {
-                    b.HasOne("SupplyForge.Domain.Entities.Company", "Company")
-                        .WithMany("Members")
-                        .HasForeignKey("CompanyId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("SupplyForge.Domain.Entities.Role", "Role")
-                        .WithMany("Members")
-                        .HasForeignKey("RoleId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("SupplyForge.Domain.Entities.User", "User")
-                        .WithMany("Memberships")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Company");
-
-                    b.Navigation("Role");
-
-                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("SupplyForge.Domain.Entities.Order", b =>
                 {
                     b.HasOne("SupplyForge.Domain.Entities.Client", "Client")
-                        .WithMany("Orders")
+                        .WithMany()
                         .HasForeignKey("ClientId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -381,12 +217,6 @@ namespace SupplyForge.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("SupplyForge.Domain.Entities.Product", "Product")
-                        .WithMany()
-                        .HasForeignKey("ProductId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("SupplyForge.Domain.Entities.Vehicle", "Vehicle")
                         .WithMany("Shipments")
                         .HasForeignKey("VehicleId")
@@ -395,38 +225,18 @@ namespace SupplyForge.Migrations
 
                     b.Navigation("Order");
 
-                    b.Navigation("Product");
-
                     b.Navigation("Vehicle");
                 });
 
             modelBuilder.Entity("SupplyForge.Domain.Entities.ShipmentItem", b =>
                 {
-                    b.HasOne("SupplyForge.Domain.Entities.Product", "Product")
-                        .WithMany()
-                        .HasForeignKey("ProductId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
                     b.HasOne("SupplyForge.Domain.Entities.Shipment", "Shipment")
                         .WithMany("ShipmentItems")
                         .HasForeignKey("ShipmentId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Product");
-
                     b.Navigation("Shipment");
-                });
-
-            modelBuilder.Entity("SupplyForge.Domain.Entities.Client", b =>
-                {
-                    b.Navigation("Orders");
-                });
-
-            modelBuilder.Entity("SupplyForge.Domain.Entities.Company", b =>
-                {
-                    b.Navigation("Members");
                 });
 
             modelBuilder.Entity("SupplyForge.Domain.Entities.Order", b =>
@@ -434,19 +244,9 @@ namespace SupplyForge.Migrations
                     b.Navigation("Shipments");
                 });
 
-            modelBuilder.Entity("SupplyForge.Domain.Entities.Role", b =>
-                {
-                    b.Navigation("Members");
-                });
-
             modelBuilder.Entity("SupplyForge.Domain.Entities.Shipment", b =>
                 {
                     b.Navigation("ShipmentItems");
-                });
-
-            modelBuilder.Entity("SupplyForge.Domain.Entities.User", b =>
-                {
-                    b.Navigation("Memberships");
                 });
 
             modelBuilder.Entity("SupplyForge.Domain.Entities.Vehicle", b =>

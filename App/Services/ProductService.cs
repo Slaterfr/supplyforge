@@ -48,5 +48,15 @@ namespace SupplyForge.App.Services
                     .SetProperty(p => p.Weight, data.Weight));
             await _context.SaveChangesAsync();
         }
+
+        public async Task DeleteProductAsync(Guid id)
+        {
+            var product = await _context.Products.FindAsync(id);
+            if (product != null)
+            {
+                _context.Products.Remove(product);
+                await _context.SaveChangesAsync();
+            }
+        }
     }
 }

@@ -9,5 +9,6 @@ namespace SupplyForge.App.Interfaces
         Task<Product> GetProductByIdAsync(Guid Id);
         Task AddProductAsync(ProductDTO product);
         Task UpdateProductAsync(Guid id, ProductDTO data);
+        Task DeleteProductAsync(Guid id);
     }
 }

@@ -10,20 +10,31 @@ namespace SupplyForge.Infrastructure.Configurations
         {
             builder.ToTable("ShipmentItems");
 
-            builder.Property(si => si.UnitQuantity)
-                .IsRequired()
-                .HasColumnType("int");
-            builder.Property(si => si.Id)
+            builder.HasKey(si => si.Id);
+
+            builder.Property(si => si.ShipmentId)
                 .IsRequired();
-            
 
-            builder.Property(si => si.UnitWeight) .IsRequired().HasMaxLength(64).HasColumnType("decimal(18,2)");
-            builder.Property(si => si.UnitPrice) .IsRequired().HasMaxLength(64).HasColumnType("decimal(18,2)");
+            builder.Property(si => si.ProductId)
+                .IsRequired();
 
+            builder.Property(si => si.UnitQuantity)
+                .IsRequired();
+
+            builder.Property(si => si.UnitWeight)
+                .IsRequired()
+                .HasColumnType("decimal(18,2)");
+
+            builder.Property(si => si.UnitPrice)
+                .IsRequired()
+                .HasColumnType("decimal(18,2)");
+
+            // Relationship: Shipment -> ShipmentItem (One-to-Many)
             builder.HasOne(si => si.Shipment)
                 .WithMany(s => s.ShipmentItems)
                 .HasForeignKey(si => si.ShipmentId)
                 .OnDelete(DeleteBehavior.Cascade);
+
         }
     }
 }

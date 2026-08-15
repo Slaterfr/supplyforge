@@ -33,5 +33,28 @@ namespace SupplyForge.Api.Controllers
             await _productService.AddProductAsync(product);
             return CreatedAtAction(nameof(GetProducts), new { id = product.Name }, product);
         }
+
+        [HttpPut]
+        public async Task<IActionResult> UpdateProduct([FromRoute] Guid id, [FromBody] ProductDTO data)
+        {
+            if (data == null || id == Guid.Empty)
+            {
+                return BadRequest("Invalid product data.");
+            }
+
+            await _productService.UpdateProductAsync(id, data);
+            return NoContent();
+        }
+
+        [HttpDelete]
+        public async Task<IActionResult> DeleteProduct([FromRoute] Guid id)
+        {
+            if (id == Guid.Empty)
+            {
+                return BadRequest("Invalid product ID.");
+            }
+            await _productService.DeleteProductAsync(id);
+            return NoContent();
+        }
     }
 }

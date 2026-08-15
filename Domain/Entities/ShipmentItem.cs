@@ -1,7 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore.Metadata.Builders;
-
-
-namespace SupplyForge.Domain.Entities
+﻿namespace SupplyForge.Domain.Entities
 {
     public sealed class ShipmentItem
     {
@@ -10,11 +7,15 @@ namespace SupplyForge.Domain.Entities
         public Guid ProductId { get; private set; }
         public int UnitQuantity { get; private set; }
         public decimal UnitWeight { get; private set; }
-        public decimal TotalWeight => UnitWeight * UnitQuantity;
         public decimal UnitPrice { get; private set; }
-        public decimal TotalPrice => UnitPrice * UnitQuantity;
-        public Shipment Shipment { get; private set; } // Navigation property
 
+        // Calculated properties
+        public decimal TotalWeight => UnitWeight * UnitQuantity;
+        public decimal TotalPrice => UnitPrice * UnitQuantity;
+
+        // Navigation properties
+        public Shipment Shipment { get; private set; }
+        public Product Product { get; private set; }
 
         private ShipmentItem() { } // For EF Core
 
@@ -52,6 +53,5 @@ namespace SupplyForge.Domain.Entities
             UnitWeight = unitWeight;
             UnitPrice = unitPrice;
         }
-
     }
 }

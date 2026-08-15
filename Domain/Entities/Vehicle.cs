@@ -1,7 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using SupplyForge.Domain.Enums;
-
+﻿using SupplyForge.Domain.Enums;
 
 namespace SupplyForge.Domain.Entities
 {
@@ -11,7 +8,9 @@ namespace SupplyForge.Domain.Entities
         public string PlateNumber { get; private set; }
         public decimal MaxLoad { get; private set; }
         public VehicleStatus Status { get; private set; } = VehicleStatus.Available;
-        public ICollection<Shipment> Shipments { get; private set; }
+        public DateTime CreatedAt { get; private set; }
+
+        public ICollection<Shipment> Shipments { get; private set; } = new List<Shipment>();
 
         private Vehicle()
         {
@@ -24,15 +23,17 @@ namespace SupplyForge.Domain.Entities
             {
                 throw new ArgumentException("Plate number cannot be empty.", nameof(plateNumber));
             }
+
             if (maxLoad <= 0)
             {
                 throw new ArgumentOutOfRangeException(nameof(maxLoad), "Max load must be greater than zero.");
             }
+
             Id = Guid.NewGuid();
             PlateNumber = plateNumber;
             MaxLoad = maxLoad;
+            Status = VehicleStatus.Available;
+            CreatedAt = DateTime.UtcNow;
         }
-
     }
-
 }
